@@ -5,7 +5,8 @@
             <memo v-for="memo in memos"
                 :key="memo.id"
                 :memo="memo"
-                @deleteMemo="deleteMemo"/>
+                @deleteMemo="deleteMemo"
+                @updateMemo="updateMemo"/>
         </ul>
     </div>
 </template>
@@ -36,6 +37,14 @@ export default {
     deleteMemo (id) {
       const targetIndex = this.memos.findIndex(v => v.id === id)
       this.memos.splice(targetIndex, 1)
+      this.storesMemo()
+    },
+    updateMemo (payload) {
+      const {id, content} = payload
+      const targetIndex = this.memos.findIndex(v => v.id === id)
+      const targetMemo = this.memos[targetIndex]
+
+      this.memos.splice(targetIndex, 1, {...targetMemo, content})
       this.storesMemo()
     }
   },
