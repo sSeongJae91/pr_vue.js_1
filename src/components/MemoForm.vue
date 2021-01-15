@@ -1,14 +1,16 @@
 <template>
     <div class="memo-form">
-        <form>
+        <form @submit.prevent="addMemo">
             <fieldset>
                 <div>
                     <input class="memo-form__title-form"
                         type="text"
+                        v-model="title"
                         placeholder="메모의 제목을 입력해주세요."/>
                     <textarea class="memo-form__content-form"
+                        v-model="content"
                         placeholder="메모의 내용을 입력해주세요."/>
-                    <button type="reset"><i class="fas fa-sync-alt"></i></button>
+                    <button @click="resetFields" type="reset"><i class="fas fa-sync-alt"></i></button>
                 </div>
                 <button type="submit">등록하기</button>
             </fieldset>
@@ -17,7 +19,31 @@
 </template>
 <script>
 export default {
-  name: 'MemoForm'
+  name: 'MemoForm',
+  data () {
+    return {
+      title: '',
+      content: ''
+    }
+  },
+  methods: {
+    resetFields () {
+      this.title = ''
+      this.content = ''
+    },
+    addMemo () {
+      const {title, content} = this
+
+      const id = new Date().getTime()
+
+      const isEmpty = title.length <= 0 || content.length <= 0
+      if (isEmpty) {
+        return false
+      }
+
+      this.$emit('addMemo', {id, title, content})
+    }
+  }
 }
 </script>
 <style scoped>
