@@ -2,6 +2,9 @@
 
 > A Vue.js project
 
+## axios
+> npm install axios --save
+
 ## Build Setup
 
 ``` bash
