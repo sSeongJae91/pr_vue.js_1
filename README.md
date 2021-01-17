@@ -2,6 +2,14 @@
 
 > A Vue.js project
 
+## vue 2.xx
+> $ npm i -g @vue/cli</br>
+$ npm i -g @vue/cli-init</br>
+$ vue init webpack my-project
+
+## vue 3.xx
+> $ vue create <project-name>
+
 ## axios
 > npm install axios --save
 
