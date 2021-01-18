@@ -21,6 +21,9 @@ export default {
   props: {
     memo: {
       type: Object
+    },
+    editingId: {
+      type: Number
     }
   },
   beforeUpdate () {
@@ -35,8 +38,8 @@ export default {
       this.$emit('deleteMemo', id)
     },
     handleDblClick () {
-      this.isEditing = true
       console.log('handleDblClick =>', this.$refs.content)
+      this.$emit('setEditingId', this.memo.id)
       this.$nextTick(() => {
         this.$refs.content.focus()
       })
@@ -49,15 +52,15 @@ export default {
         return false
       }
       this.$emit('updateMemo', {id, content})
-      this.isEditing = false
+      this.$refs.content.blur()
     },
     handleBlur () {
-      this.isEditing = false
+      this.$emit('resetEditingId')
     }
   },
-  data () {
-    return {
-      isEditing: false
+  computed: {
+    isEditing () {
+      return this.memo.id === this.editingId
     }
   }
 }

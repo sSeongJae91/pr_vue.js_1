@@ -12,7 +12,10 @@ $ vue init webpack {my-project}
 > run : npm run serve
 
 ## axios
-> npm install axios --save
+> $ npm install axios --save
+
+## vuex
+> $ npm install vuex --save
 
 ## Build Setup
 

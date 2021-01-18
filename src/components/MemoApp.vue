@@ -6,7 +6,10 @@
                 :key="memo.id"
                 :memo="memo"
                 @deleteMemo="deleteMemo"
-                @updateMemo="updateMemo"/>
+                @updateMemo="updateMemo"
+                :editingId="editingId"
+                @setEditingId="SET_EDITING_ID"
+                @resetEditingId="RESET_EDITING_ID"/>
         </ul>
     </div>
 </template>
@@ -14,60 +17,36 @@
 import MemoForm from './MemoForm'
 import Memo from './Memo'
 
-import axios from 'axios'
-
-const memoAPICore = axios.create({
-  baseURL: 'http://localhost:8000/api/memos'
-})
+import {mapActions, mapState, mapMutations} from 'vuex'
+import {RESET_EDITING_ID, SET_EDITING_ID} from '../store/mutations-types'
 
 export default {
-  name: 'MemoMapp',
+  name: 'MemoApp',
   components: {
     MemoForm,
     Memo
   },
-  data () {
-    return {
-      memos: []
-    }
+  computed: {
+    ...mapState([
+      'memos',
+      'editingId'
+    ])
   },
   methods: {
-    addMemo (payload) {
-      memoAPICore.post('/', payload)
-        .then(res => {
-          this.memos.push(res.data)
-        })
-      this.$emit('change', this.memos.length)
-    },
-    // storesMemo () {
-    //   const memosToString = JSON.stringify(this.memos)
-    //   localStorage.setItem('memos', memosToString)
-    // },
-    deleteMemo (id) {
-      const targetIndex = this.memos.findIndex(v => v.id === id)
-      memoAPICore.delete(`/${id}`)
-        .then(() => {
-          this.memos.splice(targetIndex, 1)
-        })
-      this.$emit('change', this.memos.length)
-    },
-    updateMemo (payload) {
-      const {id, content} = payload
-      const targetIndex = this.memos.findIndex(v => v.id === id)
-      const targetMemo = this.memos[targetIndex]
-
-      memoAPICore.put(`${id}`, {content})
-        .then(() => {
-          this.memos.splice(targetIndex, 1, {...targetMemo, content})
-        })
-    }
+    ...mapMutations([
+      SET_EDITING_ID,
+      RESET_EDITING_ID
+    ]),
+    ...mapActions([
+      'fetchMemos',
+      'addMemo',
+      'deleteMemo',
+      'updateMemo'
+    ])
   },
   created () {
     // this.memos = localStorage.memos ? JSON.parse(localStorage.memos) : []
-    memoAPICore.get('/')
-      .then(res => {
-        this.memos = res.data
-      })
+    this.fetchMemos()
   }
 }
 </script>
