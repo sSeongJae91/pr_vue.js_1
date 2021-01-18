@@ -9,6 +9,7 @@ $ vue init webpack {my-project}
 
 ## vue 3.xx
 > $ vue create {project-name}
+> run : npm run serve
 
 ## axios
 > npm install axios --save
