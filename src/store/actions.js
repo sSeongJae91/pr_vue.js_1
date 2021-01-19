@@ -29,9 +29,9 @@ export function deleteMemo ({commit}, id) {
 export function updateMemo ({commit}, payload) {
   const {id, content} = payload
 
-  memoAPICore.put(`${id}`, {content})
+  memoAPICore.put(`/${id}`, {content})
     .then(() => {
-      commit(EDIT_MEMO, id)
+      commit(EDIT_MEMO, payload)
     })
 }
 
