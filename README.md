@@ -17,6 +17,9 @@ $ vue init webpack {my-project}
 ## vuex
 > $ npm install vuex --save
 
+# eslintignore
+**/*
+
 ## Build Setup
 
 ``` bash
